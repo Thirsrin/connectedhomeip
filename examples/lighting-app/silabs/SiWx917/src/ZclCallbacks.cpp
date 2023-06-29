@@ -28,6 +28,10 @@
 #include <app/ConcreteAttributePath.h>
 #include <lib/support/logging/CHIPLogging.h>
 
+#ifdef DIC_ENABLE
+#include "dic.h"
+#endif
+
 using namespace ::chip;
 using namespace ::chip::app::Clusters;
 
@@ -40,6 +44,9 @@ void MatterPostAttributeChangeCallback(const chip::app::ConcreteAttributePath & 
 
     if (clusterId == OnOff::Id && attributeId == OnOff::Attributes::OnOff::Id)
     {
+#ifdef DIC_ENABLE
+        DIC_SendMsg("light/state", (const char *)(value ? ( *value ? "on" : "off") : "invalid"));
+#endif
         LightMgr().InitiateAction(AppEvent::kEventType_Light, *value ? LightingManager::ON_ACTION : LightingManager::OFF_ACTION);
     }
     else if (clusterId == LevelControl::Id)

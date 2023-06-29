@@ -29,6 +29,10 @@
 
 #include <assert.h>
 
+#ifdef DIC_ENABLE
+#include "dic.h"
+#endif
+
 #include <setup_payload/QRCodeSetupPayloadGenerator.h>
 #include <setup_payload/SetupPayload.h>
 
@@ -63,6 +67,22 @@ void OnTriggerIdentifyEffectCompleted(chip::System::Layer * systemLayer, void * 
 #endif
 }
 } // namespace
+
+#ifdef DIC_ENABLE
+namespace {
+void AppSpecificConnectivityEventCallback(const ChipDeviceEvent * event, intptr_t arg)
+{
+    SILABS_LOG("AppSpecificConnectivityEventCallback: call back for IPV4");
+    if ((event->Type == DeviceEventType::kInternetConnectivityChange) &&
+        (event->InternetConnectivityChange.IPv4 == kConnectivity_Established))
+    {
+        SILABS_LOG("Got IPv4 Address! Starting DIC module\n");
+        if (DIC_OK != DIC_Init())
+            SILABS_LOG("Failed to initialize DIC module\n");
+    }
+}
+}
+#endif
 
 void OnTriggerIdentifyEffect(Identify * identify)
 {
@@ -138,6 +158,10 @@ CHIP_ERROR AppTask::Init()
     }
 
     LightMgr().SetCallbacks(ActionInitiated, ActionCompleted);
+
+#ifdef DIC_ENABLE
+    chip::DeviceLayer::PlatformMgr().AddEventHandler(AppSpecificConnectivityEventCallback, reinterpret_cast<intptr_t>(nullptr));
+#endif
 
     sLightLED.Init(APP_ACTION_LED);
     sLightLED.Set(LightMgr().IsLightOn());

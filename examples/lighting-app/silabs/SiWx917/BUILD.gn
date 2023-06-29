@@ -147,6 +147,10 @@ silabs_executable("lighting_app") {
       "-Wl,SILABS_WIFI=1",
     ]
   }
+  # MQTT
+  if (enable_dic) {
+   deps += [ "${examples_plat_dir}:efr32-dic" ]
+  }
 
   output_dir = root_out_dir
 }
