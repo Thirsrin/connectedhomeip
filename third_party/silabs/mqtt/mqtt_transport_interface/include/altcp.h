@@ -92,7 +92,6 @@ typedef struct altcp_allocator_s {
 //#define LWIP_DBG_ON 0x80U
 #define ALTCP_DEBUG
 //#define ALTCP_MBEDTLS_DEBUG (LWIP_DBG_ON)
-
 #ifndef TRANSPORT_UNUSED_ARG
 #define TRANSPORT_UNUSED_ARG(x) (void)x
 #endif /* TRANSPORT_UNUSED_ARG */

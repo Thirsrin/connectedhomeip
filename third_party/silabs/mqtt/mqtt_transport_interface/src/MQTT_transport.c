@@ -355,6 +355,7 @@ transport_connect_cb(void *arg, struct altcp_pcb *tpcb, err_t err)
 
 void mbedtls_signal_app(void *arg)
 {
+  SILABS_LOG("enrers mbedtls_signal_app");
   MQTT_Transport_t *client = (MQTT_Transport_t *)arg;
   xEventGroupSetBits(client->events, SIGNAL_TRANSINTF_MBEDTLS_RX);
 }
@@ -363,6 +364,7 @@ altcp_mbedtls_lower_recv_process(struct altcp_pcb *conn);
 
 void transport_process_mbedtls_rx(MQTT_Transport_t *client)
 {
+  SILABS_LOG("enrers transport_process_mbedtls_rx fn ");
   altcp_mbedtls_lower_recv_process(client->conn);
 }
 

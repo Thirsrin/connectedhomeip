@@ -174,7 +174,7 @@ template("siwx917_sdk") {
       "ROM_WIRELESS",
 
       # "SL_ONNETWORK_PAIRING=1",
-      # "SL_WIFI_SSID=\"matter_openwrt\"",
+      # "SL_WIFI_SSID=\"matter_netgear\"",
       # "SL_WIFI_PSK=\"matter@123\"",
     ]
 

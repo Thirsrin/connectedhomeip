@@ -87,6 +87,7 @@ static void dic_task_fn(void *args)
 {
   /* get MQTT client handle */
   err_t ret;
+  vTaskDelay(10000);
   mqtt_client = mqtt_client_new();
   if (!mqtt_client)
   {
@@ -171,7 +172,7 @@ dic_err_t DIC_Init()
     SILABS_LOG("Failed to create DIC event groups");
     goto DIC_error;
   }
-  if ((pdPASS != xTaskCreate(dic_task_fn, DIC_TASK_NAME, DIC_TASK_STACK_SIZE, NULL, 1, &dicTask))
+  if ((pdPASS != xTaskCreate(dic_task_fn, DIC_TASK_NAME, DIC_TASK_STACK_SIZE, NULL, 2, &dicTask))
             || !dicTask)
   {
     SILABS_LOG("Failed to create DIC Task");
